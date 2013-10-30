@@ -2,7 +2,6 @@ package edu.vt.ece4564;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -11,37 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 
-import edu.vt.ece4564.Place;
-
 public class DataServlet extends HttpServlet {
 
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8080);
-		
+
 		WebAppContext context = new WebAppContext();
 		context.setWar("war");
 		context.setContextPath("/data");
 		server.setHandler(context);
-		
+
 		try {
 
 			server.start();
 			server.join();
-			
-		}
-		catch(Exception e) {
-			
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
-			
+
 		}
 
 	}
@@ -80,7 +74,7 @@ public class DataServlet extends HttpServlet {
 						+ typesreq
 						+ "&sensor=false&key=AIzaSyAdOcXxrIz0YOO8LS6Sy0Djb7GDFz6w2w4";
 
-				// This call will wait until the request is complete
+				// Waits until the request is complete
 				ContentResponse response;
 				try {
 					response = client.GET(queryRequestURL);
@@ -99,16 +93,15 @@ public class DataServlet extends HttpServlet {
 				}
 
 				switch (response.getStatus()) {
-				case 200: // A-ok
+				case 200:
 					// Here is where the response in the form of a string goes
 					// back to the Android app request.
 					out.write(new String(response.getContent(), "UTF-8"));
 					break;
-				case 404: // If you want to check for specific error types
+				case 404:
 					out.write("Oh no, 404");
 					break;
-				default: // Then don't forget to handle all of the other
-							// response codes!
+				default:
 					out.write("Unknown response");
 					break;
 				}

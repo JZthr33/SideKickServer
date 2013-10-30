@@ -1,4 +1,5 @@
 package edu.vt.ece4564;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -13,30 +14,30 @@ public class MyFirstServlet extends HttpServlet {
 
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8080);
-		
+
 		WebAppContext context = new WebAppContext();
 		context.setWar("war");
 		context.setContextPath("/");
 		server.setHandler(context);
-		
+
 		try {
 
 			server.start();
 			server.join();
-			
-		}
-		catch(Exception e) {
-			
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
-			
+
 		}
 
 	}
-	
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
 		resp.getWriter().write("Main Servlet");
-		
+
 	}
 
 }
